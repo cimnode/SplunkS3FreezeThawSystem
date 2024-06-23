@@ -2,7 +2,7 @@
 Description and design for Splunk freeze routine. Smartstore of classic indexers, utilizing S3 and glacier for long term storage.
 
 This project makes several assumptions about the Splunk environment.  
-1. Retention period is beyond the requirements for immediately searchable data time range.  
+1. Retention period is beyond the requirements for immediately searchable time range.  
 2. Finite resources, as in their is motive to reduce S3 costs.
 
 Background  
