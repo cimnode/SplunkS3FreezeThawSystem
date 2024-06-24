@@ -14,7 +14,7 @@ While S3 remote storage has huge benefits for Splunk, it still has performance a
 
 To complete the system, a routine to rapidly load thawed buckets to Splunk indexers in classic mode is required.  This would be need for less common, but critical, investigations.  
 ```  
-    Indexers                        S3 Storage               Standalone      
+    Indexers                        S3 Glacier               Standalone      
                                                              Instance        
 ┌──────────────────┐                                                         
 │                  │                                                         
@@ -58,14 +58,14 @@ To complete the system, a routine to rapidly load thawed buckets to Splunk index
                                                                & Thawed data 
                                                                Deleted       
 ```
-ColdToFrozenDir Configuration - [indexes.conf](https://docs.splunk.com/Documentation/Splunk/9.2.1/Admin/Indexesconf#indexes.conf.spec) configuration within Splunk 
+ColdToFrozenDir Configuration - [indexes.conf](https://docs.splunk.com/Documentation/Splunk/9.2.1/Admin/Indexesconf#indexes.conf.spec) configuration within Splunk. This configuration is used instead of coldToFrozenScript to prevent IO wait during S3 communication from impacting Splunk indexer performance.
 
-Copy To S3 Routine
+Copy To S3 Routine - Copy and verify receipt of complete data in S3. This routine can be used with a Snowball, or with a direct copy to S3 over the network. Note that if a snowball is used, the local copy will not be removed until an additional confirmation of data being received in S3 located in AWS.
 
-Confirm and Delete
+Confirm and Delete - Only delete the local bucket copy when data is verified and available in S3 Glacier. (Snowball does not quality for deletion.)
 
-Thaw Routine
+Thaw Routine - Specify the indexes and date range to be thawed. Poll Glacier for qualifying buckets based on name. Calculate indexer requirements for thaw. Deploy instances, place data in thaw locations, and peer to search heads.
 
-Frozen Purge Routine
+Frozen Purge Routine - Routine to remove aged out buckets based on index name and time range based on bucket name. Permanently deletes data.
 
-Decomm Routine
+Decomm Routine - Destroy instances used to search thawed data.
