@@ -14,3 +14,46 @@ While S3 remote storage has huge benefits for Splunk, it still has performance a
 
 To complete the system, a routine to rapidly load thawed buckets to Splunk indexers in classic mode is required.  This would be need for less common, but critical, investigations.  
   
+    Indexers                        S3 Storage               Standalone      
+                                                             Instance        
+┌──────────────────┐                                                         
+│                  │                                                         
+│  Aged Out Bucket │                                                         
+│                  │                                                         
+└────────┬─────────┘                                                         
+         │                                                                   
+  ColdToFrozenDir                                                            
+   configuration                                                             
+         │                                                                   
+┌────────┴─────────┐                                                         
+│                  │                                                         
+│ Frozen Bucket    │                                                         
+│                  │                                                         
+└────────┬─────────┘                                                         
+         │                    ┌─────────────────┐                            
+         │      Copy to       │                 │                            
+         └─────────S3─────────┤ Frozen Bucket   │                            
+                 Routine      │                 │                            
+                              └────────┬────────┘                            
+                                       │                                     
+                                       │                                     
+                         Confirm       │                                     
+  Delete from Local─────────&──────────┤                                     
+                         Delete        │                                     
+                                       │                                     
+                                       │                   ┌────────────────┐
+                                       │      Thaw         │   Searchable   │
+                                       ├──────Routine──────┤     Data       │
+                                       │                   │                │
+                                       │                   └───────┬────────┘
+                                       │                           │         
+                                  Frozen Purge                     │         
+                                     Routine                    Decomm       
+                                       │                        Routine      
+                                       │                           │         
+                                       │                           │         
+                                  Deleted from                     │         
+                                      S3                                     
+                                                               Instance      
+                                                               & Thawed data 
+                                                               Deleted       
