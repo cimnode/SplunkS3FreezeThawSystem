@@ -13,7 +13,7 @@ While S3 remote storage has huge benefits for Splunk, it still has performance a
 2. Reduce the cost of S3 storage by moving freeze buckets (which are inherently smaller) to S3 Glacier.
 
 To complete the system, a routine to rapidly load thawed buckets to Splunk indexers in classic mode is required.  This would be need for less common, but critical, investigations.  
-  
+```  
     Indexers                        S3 Storage               Standalone      
                                                              Instance        
 ┌──────────────────┐                                                         
@@ -57,3 +57,4 @@ To complete the system, a routine to rapidly load thawed buckets to Splunk index
                                                                Instance      
                                                                & Thawed data 
                                                                Deleted       
+```
