@@ -58,3 +58,14 @@ To complete the system, a routine to rapidly load thawed buckets to Splunk index
                                                                & Thawed data 
                                                                Deleted       
 ```
+ColdToFrozenDir Configuration - indexes.conf configuration within Splunk 
+
+Copy To S3 Routine
+
+Confirm and Delete
+
+Thaw Routine
+
+Frozen Purge Routine
+
+Decomm Routine
