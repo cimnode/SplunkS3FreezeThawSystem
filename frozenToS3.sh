@@ -1,12 +1,24 @@
 #!/bin/bash
+# Variables to set:
+# AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY
+# AWS_REGION
+# LOGFILE
+# CURRENT_ENDPOINT_HOST
+
 export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_REGION="snow"
 
+CURRENT_ENDPOINT_HOST="0.0.0.0"
+FROZEN_BUCKET="bucketname"
+# Root directory to start the search
+# Both paths should exist and be writable to Splunk. /data-freeze new should be the location data is frozen to.
+NEW_BUCKET_DIRECTORY="/path/splunk/var/lib/splunk/frozenCache/new"
+UPLOADED_BUCKET_DIRECTORY="/path/splunk/var/lib/splunk/frozenCache/uploaded"
+
 LOGFILE="/var/log/splunkCopyFrozenToS3_$(date +%Y-%m-%d).log"
 echo $(date)" splunkcopyFrozenToS3 routine starting." | tee -a $LOGFILE
-
-CURRENT_ENDPOINT_HOST="0.0.0.0"
 
 CA_BUNDLE=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/$CURRENT_ENDPOINT_HOST".pem"
 
@@ -17,14 +29,9 @@ fi
 
 #echo $CA_BUNDLE
 ENDPOINT_URL=https://$CURRENT_ENDPOINT_HOST":8443"
-FROZEN_BUCKET="bucketname"
-# test your endpoint
-# aws s3 ls s3://"$FROZEN_BUCKET"  --endpoint-url "$ENDPOINT_URL" --ca-bundle="$CA_BUNDLE" --region "$AWS_REGION"
 
-# Root directory to start the search
-# Both paths should exist and be writable to Splunk. /data-freeze new should be the location data is frozen to.
-NEW_BUCKET_DIRECTORY="/path/splunk/var/lib/splunk/frozenCache/new"
-UPLOADED_BUCKET_DIRECTORY="/path/splunk/var/lib/splunk/frozenCache/uploaded"
+# Uncomment the line below to test the endpoint.
+# aws s3 ls s3://"$FROZEN_BUCKET"  --endpoint-url "$ENDPOINT_URL" --ca-bundle="$CA_BUNDLE" --region "$AWS_REGION"
 
 # Bucket patterns to find.
 ORIGINATED_BUCKET_PATTERN=".*db_[0-9]+_[0-9]+_[0-9]+_.*[^(rawdata)]"
