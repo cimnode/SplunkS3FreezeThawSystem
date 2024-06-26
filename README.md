@@ -58,7 +58,9 @@ To complete the system, a routine to rapidly load thawed buckets to Splunk index
                                                                & Thawed data 
                                                                Deleted       
 ```
-ColdToFrozenDir Configuration - [indexes.conf](https://docs.splunk.com/Documentation/Splunk/9.2.1/Admin/Indexesconf#indexes.conf.spec) configuration within Splunk. This configuration is used instead of coldToFrozenScript to prevent IO wait during S3 communication from impacting Splunk indexer performance.
+ColdToFrozenDir Configuration - [indexes.conf](https://docs.splunk.com/Documentation/Splunk/9.2.1/Admin/Indexesconf#indexes.conf.spec) configuration within Splunk. This configuration is used instead of coldToFrozenScript to prevent IO wait during S3 communication from impacting Splunk indexer performance. This should follow the format /path/to/some/directory/frozenCache/new/indexname. Where frozenCache is a root directory for frozen files, 'new' is a subdirectory to hold recently frozen files. And indexname should match the index the data is coming from. Such a naming scheme is important when thawing and search. The indexes.conf settings would be somethign like:  
+[main]
+coldToFrozenDir = /path/to/directory/frozenCache/new/main
 
 Copy To S3 Routine - Copy and verify receipt of complete data in S3. This routine can be used with a Snowball, or with a direct copy to S3 over the network. Note that if a snowball is used, the local copy will not be removed until an additional confirmation of data being received in S3 located in AWS.
 
