@@ -1,14 +1,13 @@
 #!/bin/bash
 # Variables to set:
-# AWS_ACCESS_KEY_ID
-# AWS_SECRET_ACCESS_KEY
-# AWS_REGION
-# LOGFILE
-# CURRENT_ENDPOINT_HOST
-# FROZEN_BUCKET
-# NEW_BUCKET_DIRECTORY
-# UPLOADED_BUCKET_DIRECTORY
-# LOGFILE
+# AWS_ACCESS_KEY_ID -  can be commented if already configured via s3 tools
+# AWS_SECRET_ACCESS_KEY -  can be commented if already configured via s3 tools
+# AWS_REGION - specify the AWS region, note the 'snow' is a special region for snowball transfers. -  can be commented if already configured via s3 tools
+# LOGFILE - path and naming scheme for the log file. Note the default uses a variable for date in the log name.
+# CURRENT_ENDPOINT_HOST - the host/ip for s3/snowball.
+# FROZEN_BUCKET - the bucket name data will be moved to
+# NEW_BUCKET_DIRECTORY - location that buckets are sent to when frozen
+# UPLOADED_BUCKET_DIRECTORY - location buckets are moved to so it is clear they have been uploaded
 
 export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
