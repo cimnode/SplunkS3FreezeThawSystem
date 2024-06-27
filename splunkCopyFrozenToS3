@@ -4,7 +4,7 @@
 # AWS_SECRET_ACCESS_KEY -  can be commented if already configured via s3 tools
 # AWS_REGION - specify the AWS region, note the 'snow' is a special region for snowball transfers. -  can be commented if already configured via s3 tools
 # LOGFILE - path and naming scheme for the log file. Note the default uses a variable for date in the log name.
-# CURRENT_ENDPOINT_HOST - the host/ip for s3/snowball.
+# CURRENT_ENDPOINT_HOST - the host/ip for s3/snowball. This uses an array, with one entry per line.
 # FROZEN_BUCKET - the bucket name data will be moved to
 # NEW_BUCKET_DIRECTORY - location that buckets are sent to when frozen. based on coldToFrozenDir settings, each index will have it's own directory here.
 # UPLOADED_BUCKET_DIRECTORY - location buckets are moved to so it is clear they have been uploaded
@@ -13,7 +13,15 @@ export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_REGION="snow"
 
-CURRENT_ENDPOINT_HOST="0.0.0.0"
+#Endpoint selector
+declare -a ENDPOINT_LIST=(
+[0]=1.2.3.4
+[1]=0.0.0.0
+[2]=192.168.1.1
+)
+randnumber=$[$RANDOM % ${#ENDPOINT_LIST[@]}]
+CURRENT_ENDPOINT_HOST=${ENDPOINT_LIST[$randnumber]}
+
 FROZEN_BUCKET="bucketname"
 # Root directory to start the search
 # Both paths should exist and be writable to Splunk. /data-freeze new should be the location data is frozen to.
